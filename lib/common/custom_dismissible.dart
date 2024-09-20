@@ -124,68 +124,30 @@ class _CustomDismissibleState extends State<CustomDismissible>
     }
 
     //原有的计算方式 start
-    // // 计算新的拖动距离
-    // final double delta = details.primaryDelta!;
-    // final double oldDragExtent = _dragExtent;
-
-    // // 更新拖动距离
-    // if (_dragExtent + delta < 0) {
-    //   _dragExtent += delta;
-    // } else if (_dragExtent + delta > 0) {
-    //   _dragExtent += delta;
-    // }
-    //
-    // // 如果拖动方向改变，更新动画
-    // if (oldDragExtent.sign != _dragExtent.sign) {
-    //   setState(_updateMoveAnimation);
-    // }
-    //
-    // // 更新动画控制器的值
-    // if (!_animateController.isAnimating) {
-    //   _animateController.value = _dragExtent.abs() / context.size!.height;
-    // }
-    //原有的计算方式 end
-
-    // 只处理向下拖动
+    // 计算新的拖动距离
     final double delta = details.primaryDelta!;
-    if (delta > 0) {
-      final double oldDragExtent = _dragExtent;
+    final double oldDragExtent = _dragExtent;
+
+    // 更新拖动距离
+    if (_dragExtent + delta < 0) {
       _dragExtent += delta;
-
-      if (oldDragExtent.sign != _dragExtent.sign) {
-        setState(_updateMoveAnimation);
-      }
-
-      if (!_animateController.isAnimating) {
-        _animateController.value = _dragExtent.abs() / context.size!.height;
-      }
+    } else if (_dragExtent + delta > 0) {
+      _dragExtent += delta;
     }
+
+    // 如果拖动方向改变，更新动画
+    if (oldDragExtent.sign != _dragExtent.sign) {
+      setState(_updateMoveAnimation);
+    }
+
+    // 更新动画控制器的值
+    if (!_animateController.isAnimating) {
+      _animateController.value = _dragExtent.abs() / context.size!.height;
+    }
+    //原有的计算方式 end
   }
 
   /// 处理拖动结束事件(原有的方式)
-  // void _handleDragEnd(DragEndDetails details) {
-  //   if (!_isActive || _animateController.isAnimating) {
-  //     return;
-  //   }
-  //
-  //   _dragUnderway = false;
-  //
-  //   if (_animateController.isCompleted) {
-  //     return;
-  //   }
-  //
-  //   if (!_animateController.isDismissed) {
-  //     // 如果拖动值超过 dismissThreshold，调用 onDismissed 回调
-  //     // 否则，将组件动画回到初始位置
-  //     if (_animateController.value > widget.dismissThreshold) {
-  //       widget.onDismissed?.call();
-  //     } else {
-  //       _animateController.reverse();
-  //     }
-  //   }
-  // }
-
-  /// 处理拖动结束事件
   void _handleDragEnd(DragEndDetails details) {
     if (!_isActive || _animateController.isAnimating) {
       return;
